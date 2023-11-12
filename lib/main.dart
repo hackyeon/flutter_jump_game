@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Doodle Dash',
+      title: '점프 게임',
       themeMode: ThemeMode.dark,
       theme: ThemeData(
         colorScheme: lightColorScheme,
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.audiowideTextTheme(ThemeData.dark().textTheme),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Doodle Dash'),
+      home: const MyHomePage(title: '점프 게임'),
     );
   }
 }
