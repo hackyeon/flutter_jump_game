@@ -48,7 +48,7 @@ class GameOverOverlay extends StatelessWidget {
                   textStyle: MaterialStateProperty.all(
                       Theme.of(context).textTheme.titleLarge),
                 ),
-                child: const Text('Play Again'),
+                child: const Text('다시 하기'),
               ),
             ],
           ),

@@ -46,7 +46,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Doodle Dash',
+                    '점프 게임',
                     style: titleStyle.copyWith(
                       height: .8,
                     ),
@@ -55,7 +55,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay> {
                   const WhiteSpace(),
                   Align(
                     alignment: Alignment.center,
-                    child: Text('Select your character:',
+                    child: Text('캐릭터 선택',
                         style: Theme.of(context).textTheme.headlineSmall!),
                   ),
                   if (!screenHeightIsSmall) const WhiteSpace(height: 30),
@@ -88,7 +88,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Difficulty:',
+                      Text('난이도',
                           style: Theme.of(context).textTheme.bodyLarge!),
                       LevelPicker(
                         level: game.levelManager.selectedLevel.toDouble(),
@@ -115,7 +115,7 @@ class _MainMenuOverlayState extends State<MainMenuOverlay> {
                         textStyle: MaterialStateProperty.all(
                             Theme.of(context).textTheme.titleLarge),
                       ),
-                      child: const Text('Start'),
+                      child: const Text('시작'),
                     ),
                   ),
                 ],
@@ -169,6 +169,13 @@ class CharacterButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var title;
+    if(character.name == Character.dash.name) {
+      title = "플러터";
+    } else {
+      title = "플레임";
+    }
+
     return OutlinedButton(
       style: (selected)
           ? ButtonStyle(
@@ -187,7 +194,7 @@ class CharacterButton extends StatelessWidget {
             ),
             const WhiteSpace(height: 18),
             Text(
-              character.name,
+              title,
               style: const TextStyle(fontSize: 20),
             ),
           ],
