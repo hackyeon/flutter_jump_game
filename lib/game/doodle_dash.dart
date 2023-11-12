@@ -13,7 +13,7 @@ import 'sprites/sprites.dart';
 enum Character { dash, sparky }
 
 class DoodleDash extends FlameGame
-    with HasKeyboardHandlerComponents, HasCollisionDetection {
+    with HasCollisionDetection {
   DoodleDash({super.children});
 
   final World _world = World();

@@ -21,7 +21,7 @@ class GameOverlay extends StatefulWidget {
 
 class GameOverlayState extends State<GameOverlay> {
   bool isPaused = false;
-  final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
+  TouchState state = TouchState.NONE;
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,22 @@ class GameOverlayState extends State<GameOverlay> {
       color: Colors.transparent,
       child: Stack(
         children: [
+          Positioned.fill(
+            child: GestureDetector(
+              onPanDown: (details) {
+                move(context, details.localPosition.dx);
+              },
+              onPanUpdate: (details) {
+                move(context, details.localPosition.dx);
+              },
+              onPanEnd: (details) {
+                stop();
+              },
+              onPanCancel: () {
+                stop();
+              },
+            ),
+          ),
           Positioned(
             top: 30,
             left: 30,
@@ -57,52 +73,6 @@ class GameOverlayState extends State<GameOverlay> {
               },
             ),
           ),
-          if (isMobile)
-            Positioned(
-              bottom: MediaQuery.of(context).size.height / 4,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 24),
-                      child: GestureDetector(
-                        onTapDown: (details) {
-                          (widget.game as DoodleDash).player.moveLeft();
-                        },
-                        onTapUp: (details) {
-                          (widget.game as DoodleDash).player.resetDirection();
-                        },
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 3.0,
-                          shadowColor: Theme.of(context).colorScheme.background,
-                          child: const Icon(Icons.arrow_left, size: 64),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 24),
-                      child: GestureDetector(
-                        onTapDown: (details) {
-                          (widget.game as DoodleDash).player.moveRight();
-                        },
-                        onTapUp: (details) {
-                          (widget.game as DoodleDash).player.resetDirection();
-                        },
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 3.0,
-                          shadowColor: Theme.of(context).colorScheme.background,
-                          child: const Icon(Icons.arrow_right, size: 64),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
           if (isPaused)
             Positioned(
               top: MediaQuery.of(context).size.height / 2 - 72.0,
@@ -117,4 +87,27 @@ class GameOverlayState extends State<GameOverlay> {
       ),
     );
   }
+
+  void stop() {
+    (widget.game as DoodleDash).player.resetDirection();
+    state = TouchState.NONE;
+  }
+
+  void move(BuildContext context, double touchX) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    if (touchX < screenWidth / 2) {
+      if(state == TouchState.LEFT) return;
+      (widget.game as DoodleDash).player.moveLeft();
+      state = TouchState.LEFT;
+    } else {
+      if(state == TouchState.RIGHT) return;
+      (widget.game as DoodleDash).player.moveRight();
+      state = TouchState.RIGHT;
+    }
+  }
+
+}
+
+enum TouchState {
+  NONE, LEFT, RIGHT;
 }

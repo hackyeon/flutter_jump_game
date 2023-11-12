@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/services.dart';
 
 import '../doodle_dash.dart';
 import 'sprites.dart';
@@ -22,7 +21,7 @@ enum PlayerState {
 }
 
 class Player extends SpriteGroupComponent<PlayerState>
-    with HasGameRef<DoodleDash>, KeyboardHandler, CollisionCallbacks {
+    with HasGameRef<DoodleDash>, CollisionCallbacks {
   Player({
     super.position,
     required this.character,
@@ -71,26 +70,6 @@ class Player extends SpriteGroupComponent<PlayerState>
 
     position += _velocity * dt;
     super.update(dt);
-  }
-
-  @override
-  bool onKeyEvent(RawKeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
-    _hAxisInput = 0;
-
-    if (keysPressed.contains(LogicalKeyboardKey.arrowLeft)) {
-      moveLeft();
-    }
-
-    if (keysPressed.contains(LogicalKeyboardKey.arrowRight)) {
-      moveRight();
-    }
-
-    // During development, it's useful to "cheat"
-    if (keysPressed.contains(LogicalKeyboardKey.arrowUp)) {
-      // jump();
-    }
-
-    return true;
   }
 
   void moveLeft() {
